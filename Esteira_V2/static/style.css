@@ -1,0 +1,556 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #F0F0F8;
+  margin: 0;
+  color: #1A1A1A;
+  scroll-behavior: smooth;
+}
+
+/* Logo style */
+.logo {
+  font-weight: 900;
+  font-size: 1.75rem;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.1em;
+  user-select: none;
+}
+.logo sup {
+  font-size: 0.9rem;
+  letter-spacing: normal;
+  font-weight: 700;
+  margin-left: -0.23rem;
+  margin-top: 0.1rem;
+}
+.logo .ring-o {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  border: 2.5px solid #718096;
+  color: #718096;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  background: white;
+  margin-left: 0.1rem;
+  transform: translateY(2px);
+  font-style: italic;
+  user-select: none;
+}
+.logo .exclamation {
+  font-size: 1.4rem;
+  padding-left: 3px;
+  color: #6B46C1;
+  font-weight: 800;
+  user-select: none;
+  letter-spacing: 0.04em;
+}
+
+/* Navigation */
+nav a {
+  padding-bottom: 7px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  color: #1A202C;
+}
+nav a:hover,
+nav a.active {
+  color: #6B46C1;
+}
+nav a.active::after,
+nav a:hover::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2.5px;
+  background-color: #6B46C1;
+  bottom: 0;
+  left: 0;
+  border-radius: 2px;
+}
+.btn-primary {
+  background-color: #6B46C1;
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1.5rem;
+  border-radius: 40px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 12px rgb(107 70 193 / 0.5);
+  white-space: nowrap;
+}
+.btn-primary:hover {
+  background-color: #553c9a;
+  box-shadow: 0 6px 18px rgb(85 60 154 / 0.6);
+}
+
+/* Section: Hero */
+#home {
+  background-color: #F3F2FA;
+  padding: 4rem 1rem;
+  display: flex;
+  max-width: 1200px;
+  margin: 2rem auto 4rem auto;
+  border-radius: 10px;
+  box-shadow: 6px 8px 16px rgb(0 0 0 / 0.08);
+  align-items: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+#home .left-image {
+  position: relative;
+  flex: 1 1 300px;
+  max-width: 320px;
+}
+#home .left-image img {
+  border-radius: 30px 10px 30px 10px;
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+  box-shadow: 0 8px 30px rgb(107 70 193 / 0.3);
+  position: relative;
+  z-index: 2;
+  user-select: none;
+}
+/* Purple shapes behind */
+#home .shape {
+  position: absolute;
+  background-color: #7C6FC0;
+  opacity: 0.3;
+  z-index: 1;
+  border-radius: 0.3rem;
+}
+#home .shape.octagon {
+  clip-path: polygon(
+    30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%
+  );
+}
+#home .shape-big {
+  width: 180px;
+  height: 180px;
+  top: -30px;
+  left: -20px;
+  opacity: 0.4;
+}
+#home .shape-small {
+  width: 80px;
+  height: 80px;
+  top: 120px;
+  left: -50px;
+}
+#home .shape-tiny {
+  width: 40px;
+  height: 40px;
+  top: 70px;
+  left: 100px;
+  opacity: 0.3;
+}
+
+#home .right-text {
+  flex: 1 1 350px;
+  max-width: 600px;
+  text-align: center;
+}
+#home h1 {
+  font-weight: 900;
+  font-size: 2.8rem;
+  margin-bottom: 0.9rem;
+  color: #171717;
+  line-height: 1.1;
+  user-select: none;
+}
+#home p.subheading {
+  font-weight: 500;
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+  user-select: none;
+}
+
+/* Button under hero */
+#home .btn-hero {
+  background-color: #7C6FC0;
+  color: white;
+  font-weight: 700;
+  padding: 0.75rem 2.2rem;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+#home .btn-hero:hover {
+  background-color: #5e53a3;
+}
+
+/* Section: About */
+#about {
+  max-width: 900px;
+  margin: 4rem auto 4rem auto;
+  background-color: #F3F2FA;
+  border-radius: 12px;
+  padding: 2rem 2rem 2rem 3rem;
+  box-shadow: 6px 8px 20px rgb(0 0 0 / 0.13);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+}
+#about .content-text {
+  flex: 1 1 400px;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: #2d2d2d;
+  user-select: text;
+}
+#about .content-text strong,
+#about .content-text em {
+  color: #7C6FC0;
+  font-weight: 600;
+}
+#about .content-image {
+  flex: 1 1 300px;
+  position: relative;
+  max-width: 320px;
+}
+#about .content-image img {
+  border-radius: 50%;
+  width: 100%;
+  height: auto;
+  box-shadow: 0 0 20px 5px rgb(124 111 192 / 0.4);
+  user-select: none;
+  object-fit: cover;
+}
+/* Purple shapes behind About Image */
+#about .shape {
+  position: absolute;
+  background-color: #7C6FC0;
+  border-radius: 0.3rem;
+  opacity: 0.35;
+  z-index: 0;
+  clip-path: polygon(
+    30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%
+  );
+}
+#about .shape-big {
+  width: 160px;
+  height: 160px;
+  top: -30px;
+  right: -30px;
+}
+#about .shape-small {
+  width: 90px;
+  height: 90px;
+  top: 130px;
+  right: 20px;
+}
+#about .shape-tiny {
+  width: 45px;
+  height: 45px;
+  top: 50px;
+  right: 100px;
+  opacity: 0.25;
+}
+
+/* Section: Jobs */
+#jobs {
+  max-width: 1000px;
+  margin: 4rem auto 6rem auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#jobs .cards {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 1rem;
+}
+#jobs .card {
+  min-width: 260px;
+  background-color: #D7CDF7;
+  border-radius: 18px;
+  box-shadow: 7px 9px 15px rgb(0 0 0 / 0.12);
+  padding: 1.8rem 1.2rem 2.5rem 1.2rem;
+  text-align: center;
+  position: relative;
+  user-select: none;
+  flex-shrink: 0;
+}
+#jobs .card img {
+  max-width: 130px;
+  height: auto;
+  margin-bottom: 1.4rem;
+  border-radius: 12px;
+  object-fit: contain;
+  background-color: white;
+  padding: 16px;
+  box-shadow: 0 6px 12px rgb(107 70 193 / 0.3);
+  user-select: none;
+}
+#jobs .card a.more-info {
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  display: block;
+  color: #2A2A2A;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+#jobs .card a.more-info:hover {
+  color: #5E4AA3;
+}
+#jobs .card button {
+  background-color: #7C6FC0;
+  color: white;
+  font-weight: 600;
+  padding: 0.65rem 1.8rem;
+  border-radius: 36px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgb(107 70 193 / 0.4);
+  transition: background-color 0.3s ease;
+}
+#jobs .card button:hover {
+  background-color: #5e53a3;
+}
+
+/* Carousel arrows */
+#jobs .arrow {
+  position: absolute;
+  top: 45%;
+  background-color: #7C6FC0;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 3px 10px rgb(107 70 193 / 0.7);
+}
+#jobs .arrow:hover {
+  background-color: #5e53a3;
+}
+#jobs .arrow-right {
+  right: 0;
+}
+
+/* Scrollbar hidden for cards */
+#jobs .cards::-webkit-scrollbar {
+  display: none;
+}
+#jobs .cards {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Section: Authentication */
+#auth {
+  max-width: 900px;
+  margin: 4rem auto 6rem auto;
+  background-color: #F8F8FF;
+  display: flex;
+  box-shadow: 8px 8px 24px rgb(0 0 0 / 0.10);
+  border-radius: 20px;
+  user-select: none;
+  overflow: hidden;
+  flex-wrap: wrap;
+  min-height: 380px;
+}
+#auth > div {
+  flex: 1 1 320px;
+  padding: 2.5rem 3rem 3rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  backface-visibility: hidden;
+}
+#auth .side-left {
+  background-color: #7C6FC0;
+  color: white;
+  border-radius: 20px 0 0 20px;
+  text-align: center;
+  user-select: none;
+}
+#auth .side-left h2,
+#auth .side-right h2 {
+  font-weight: 900;
+  font-size: 1.9rem;
+  margin-bottom: 1rem;
+  user-select: text;
+}
+#auth .side-left p {
+  font-weight: 400;
+  font-size: 1.25rem;
+  margin-bottom: 2.5rem;
+  user-select: text;
+}
+#auth .side-left button {
+  background-color: white;
+  color: #7C6FC0;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.7rem 2.5rem;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgb(107 70 193 / 0.4);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+#auth .side-left button:hover {
+  background-color: #6a59b3;
+  color: white;
+}
+
+#auth .side-right {
+  background-color: #EDEDF9;
+  border-radius: 0 20px 20px 0;
+  user-select: none;
+}
+#auth form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  text-align: left;
+}
+#auth label {
+  font-weight: 600;
+  margin-left: 3px;
+  margin-bottom: 0.15rem;
+  user-select: text;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #4A4A4A;
+}
+
+#auth input{
+  background-color: #D7CDF7;
+  border: none;
+  border-radius: 15px;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #261f4f;
+  outline-offset: 3px;
+  outline-color: transparent;
+  transition: outline-color 0.3s ease;
+}
+
+#auth input:focus {
+  outline-color: #7C6FC0;
+}
+#auth button[type="submit"] {
+  background-color: #614fba;
+  color: white;
+  font-weight: 800;
+  font-size: 1.05rem;
+  padding: 0.8rem 1rem;
+  border-radius: 40px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+  box-shadow: 0 6px 18px rgb(107 70 193 / 0.5);
+}
+#auth button[type="submit"]:hover {
+  background-color: #5e53a3;
+}
+/* social buttons container */
+.social-auth {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1.4rem;
+  user-select: none;
+}
+.social-btn {
+  background-color: #D7CDF7;
+  color: #6B46C1;
+  font-weight: 700;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.12);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  user-select: none;
+  border: 2px solid transparent;
+}
+.social-btn:hover {
+  background-color: #6B46C1;
+  color: white;
+  border-color: #4c357a;
+}
+.separator-text {
+  font-weight: 400;
+  user-select: none;
+  font-size: 0.9rem;
+  color: #7a7590;
+  margin-bottom: 1.2rem;
+}
+
+/* Form icons in inputs */
+input[icon] {
+  padding-left: 2.4rem !important;
+  font-weight: 600;
+}
+input.icon {
+  background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 2.2c-3.1 0-9.3 1.5-9.3 4.6V22h18.6v-3.2c0-3-6.2-4.6-9.3-4.6z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: 8px center;
+  background-size: 18px 18px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #home {
+    flex-direction: column;
+    padding: 2rem 1rem;
+    max-width: 90vw;
+  }
+  #about {
+    flex-direction: column;
+    max-width: 90vw;
+    padding: 1.5rem 1.5rem 2rem 1.5rem;
+  }
+  #jobs .cards {
+    padding-bottom: 2rem;
+  }
+  #auth {
+    flex-direction: column;
+    min-height: 500px;
+  }
+  #auth > div {
+    border-radius: 20px;
+    padding: 2rem 2rem 3rem 2rem;
+  }
+  #auth .side-left {
+    border-radius: 20px 20px 0 0;
+  }
+  #auth .side-right {
+    border-radius: 0 0 20px 20px;
+  }
+  nav {
+    justify-content: center;
+  }
+  nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

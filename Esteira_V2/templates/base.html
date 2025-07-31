@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Recrutamento{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-purple-50 min-h-screen">
+    <div class="flex justify-between items-center px-6 py-4 bg-white shadow-md">
+        <a href="{{ url_for('index') }}" class="text-2xl font-bold text-[#7C71B2] hover:text-purple-600">
+            Vaboo!
+        </a>
+        {% if session.tipo_usuario %}
+            <a href="{{ url_for('logout') }}" class="text-[#7C71B2] hover:text-purple-600">Sair</a>
+        {% else %}
+            <div class="flex gap-6">
+                <a href="{{ url_for('index') }}" class="text-[#7C71B2] hover:text-purple-600">Home</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <main class="container mx-auto mt-8 px-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="mb-4 p-4 rounded-lg 
+                        {% if category == 'error' %}
+                            bg-red-100 text-red-700
+                        {% elif category == 'success' %}
+                            bg-green-100 text-green-700
+                        {% else %}
+                            bg-purple-100 text-purple-700
+                        {% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

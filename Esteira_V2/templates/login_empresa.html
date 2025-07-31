@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Login Empresa{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-center py-10">
+  <div class="flex w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-hidden">
+    
+    <!-- Lado esquerdo: Login Empresa -->
+    <div class="w-1/2 p-8">
+      <h2 class="text-3xl font-bold text-[#7C71B2] text-center mb-4">Login Empresa</h2>
+      
+      <form method="POST" class="space-y-4">
+        <div>
+          <label for="cnpj" class="sr-only">CNPJ</label>
+          <input type="text" id="cnpj" name="cnpj" placeholder="CNPJ" required
+                 class="w-full px-4 py-2 rounded-full bg-[#E1D8EB] placeholder-[#7C71B2] text-sm focus:outline-none">
+        </div>
+        <div>
+          <label for="senha" class="sr-only">Senha</label>
+          <input type="password" id="senha" name="senha" placeholder="Senha" required
+                 class="w-full px-4 py-2 rounded-full bg-[#E1D8EB] placeholder-[#7C71B2] text-sm focus:outline-none">
+        </div>
+
+        <button type="submit" class="w-full bg-[#7C71B2] hover:bg-purple-600 text-white font-bold py-2 rounded-full transition">
+          Entrar
+        </button>
+      </form>
+
+      <div class="mt-4 text-center">
+        <a href="{{ url_for('cadastro_empresa') }}" 
+           class="text-[#7C71B2] hover:text-purple-600 transition-colors duration-200">
+          Não tem conta? Cadastre-se
+        </a>
+      </div>
+    </div>
+
+    <!-- Lado direito: Boas-vindas -->
+    <div class="w-1/2 bg-[#7C71B2] text-white p-8 flex flex-col justify-center items-center rounded-l-[4rem]">
+      <h1 class="text-4xl font-bold mb-4">Olá, empresa!</h1>
+      <p class="mb-6 text-sm">Ainda não tem uma conta? </p>
+      <a href="{{ url_for('cadastro_empresa') }}"
+         class="bg-white text-[#7C71B2] px-6 py-2 rounded-full font-bold hover:bg-gray-100 transition">
+        Cadastre-se
+      </a>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,312 @@
+
+
+{% extends "base.html" %} {% block title %}Relatório Estratégico{% endblock %}
+{% block content %}
+<div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow-md">
+  <div class="flex justify-between items-center mb-6">
+    <div class="flex items-center gap-4">
+      <a href="{{ url_for('dashboard_empresa') }}" class="text-blue-600 hover:text-blue-800 flex items-center gap-2">
+        ← Voltar ao Dashboard
+      </a>
+      <h2 class="text-3xl font-bold text-gray-800">📊 Relatório Estratégico</h2>
+    </div>
+    <div class="flex gap-2">
+      <button
+        onclick="gerarRelatorioCompleto()"
+        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+      >
+        📋 Relatório Completo
+      </button>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="bg-gray-50 p-4 rounded-lg mb-6">
+    <h3 class="text-lg font-semibold mb-3">🔍 Filtros</h3>
+    <div class="flex flex-wrap gap-4 items-end">
+      <div class="flex-1 min-w-64">
+        <label
+          for="filtroVagas"
+          class="block text-sm font-medium text-gray-700 mb-2"
+        >
+          Selecionar Vagas (deixe vazio para incluir todas)
+        </label>
+        <select
+          id="filtroVagas"
+          multiple
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          {% for vaga in vagas_disponiveis %}
+          <option value="{{ vaga[0] }}">{{ vaga[1] }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button
+        onclick="aplicarFiltros()"
+        class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+      >
+        Aplicar Filtros
+      </button>
+      <button
+        onclick="limparFiltros()"
+        class="bg-gray-600 text-white px-6 py-2 rounded hover:bg-gray-700"
+      >
+        Limpar
+      </button>
+    </div>
+  </div>
+
+  <!-- Dashboard de Métricas -->
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+    id="metricas"
+  >
+    <!-- Métricas serão carregadas via JavaScript -->
+  </div>
+
+  <!-- Gráficos -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <!-- Gráfico de Pizza - Distribuição de Candidatos -->
+    <div class="bg-white p-6 rounded-lg shadow border">
+      <h3 class="text-xl font-semibold mb-4">
+        🥧 Distribuição de Candidatos por Vaga
+      </h3>
+      <canvas id="grafico-pizza" width="400" height="400"></canvas>
+    </div>
+
+    <!-- Gráfico de Barras - Score Médio -->
+    <div class="bg-white p-6 rounded-lg shadow border">
+      <h3 class="text-xl font-semibold mb-4">📊 Score Médio por Vaga</h3>
+      <canvas id="grafico-barras" width="400" height="400"></canvas>
+    </div>
+  </div>
+
+  <!-- Gráfico de Linha - Tendência Temporal -->
+  <div class="bg-white p-6 rounded-lg shadow border mb-8">
+    <h3 class="text-xl font-semibold mb-4">
+      📈 Tendência de Candidaturas (Últimos 30 dias)
+    </h3>
+    <canvas id="grafico-linha" width="800" height="300"></canvas>
+  </div>
+
+  <!-- Área de Insights -->
+  <div
+    class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg shadow border"
+  >
+    <h3 class="text-xl font-semibold mb-4 text-blue-800">
+      💡 Insights Automáticos
+    </h3>
+    <div id="insights" class="space-y-3">
+      <!-- Insights serão carregados via JavaScript -->
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  let dadosGraficos = {{ dados_graficos | safe }};
+  let graficoPizza, graficoBarras, graficoLinha;
+
+  // Inicializar gráficos
+  document.addEventListener('DOMContentLoaded', function() {
+      carregarMetricas();
+      criarGraficos();
+      gerarInsights();
+  });
+
+  function carregarMetricas() {
+      // Implementar carregamento de métricas básicas
+      const metricas = document.getElementById('metricas');
+      metricas.innerHTML = `
+          <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-6 rounded-lg">
+              <h3 class="text-3xl font-bold">${dadosGraficos.pizza.data.reduce((a, b) => a + b, 0)}</h3>
+              <p class="opacity-90">Total de Candidaturas</p>
+          </div>
+          <div class="bg-gradient-to-br from-green-500 to-green-600 text-white p-6 rounded-lg">
+              <h3 class="text-3xl font-bold">${dadosGraficos.pizza.labels.length}</h3>
+              <p class="opacity-90">Vagas Ativas</p>
+          </div>
+          <div class="bg-gradient-to-br from-purple-500 to-purple-600 text-white p-6 rounded-lg">
+              <h3 class="text-3xl font-bold">${dadosGraficos.barras.data.length > 0 ? (dadosGraficos.barras.data.reduce((a, b) => a + b, 0) / dadosGraficos.barras.data.length).toFixed(1) : 0}%</h3>
+              <p class="opacity-90">Score Médio Geral</p>
+          </div>
+          <div class="bg-gradient-to-br from-orange-500 to-orange-600 text-white p-6 rounded-lg">
+              <h3 class="text-3xl font-bold">${dadosGraficos.linha.data.reduce((a, b) => a + b, 0)}</h3>
+              <p class="opacity-90">Candidaturas (30 dias)</p>
+          </div>
+      `;
+  }
+
+  function criarGraficos() {
+      // Gráfico de Pizza
+      const ctxPizza = document.getElementById('grafico-pizza').getContext('2d');
+      graficoPizza = new Chart(ctxPizza, {
+          type: 'pie',
+          data: {
+              labels: dadosGraficos.pizza.labels,
+              datasets: [{
+                  data: dadosGraficos.pizza.data,
+                  backgroundColor: [
+                      '#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6',
+                      '#06B6D4', '#84CC16', '#F97316', '#EC4899', '#6B7280'
+                  ]
+              }]
+          },
+          options: {
+              responsive: true,
+              plugins: {
+                  legend: {
+                      position: 'bottom'
+                  }
+              }
+          }
+      });
+
+      // Gráfico de Barras
+      const ctxBarras = document.getElementById('grafico-barras').getContext('2d');
+      graficoBarras = new Chart(ctxBarras, {
+          type: 'bar',
+          data: {
+              labels: dadosGraficos.barras.labels,
+              datasets: [{
+                  label: 'Score Médio (%)',
+                  data: dadosGraficos.barras.data,
+                  backgroundColor: '#3B82F6',
+                  borderColor: '#1D4ED8',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              responsive: true,
+              scales: {
+                  y: {
+                      beginAtZero: true,
+                      max: 100
+                  }
+              }
+          }
+      });
+
+      // Gráfico de Linha
+      const ctxLinha = document.getElementById('grafico-linha').getContext('2d');
+      graficoLinha = new Chart(ctxLinha, {
+          type: 'line',
+          data: {
+              labels: dadosGraficos.linha.labels,
+              datasets: [{
+                  label: 'Candidaturas por Dia',
+                  data: dadosGraficos.linha.data,
+                  borderColor: '#10B981',
+                  backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                  tension: 0.4,
+                  fill: true
+              }]
+          },
+          options: {
+              responsive: true,
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+  }
+
+  function gerarInsights() {
+      const insights = document.getElementById('insights');
+      let htmlInsights = '';
+
+      // Insight sobre vaga mais popular
+      if (dadosGraficos.pizza.data.length > 0) {
+          const maxIndex = dadosGraficos.pizza.data.indexOf(Math.max(...dadosGraficos.pizza.data));
+          htmlInsights += `
+              <div class="bg-white p-4 rounded border-l-4 border-blue-500">
+                  <strong>🎯 Vaga Mais Popular:</strong> ${dadosGraficos.pizza.labels[maxIndex]}
+                  (${dadosGraficos.pizza.data[maxIndex]} candidatos)
+              </div>
+          `;
+      }
+
+      // Insight sobre melhor score
+      if (dadosGraficos.barras.data.length > 0) {
+          const maxScoreIndex = dadosGraficos.barras.data.indexOf(Math.max(...dadosGraficos.barras.data));
+          htmlInsights += `
+              <div class="bg-white p-4 rounded border-l-4 border-green-500">
+                  <strong>⭐ Melhor Score:</strong> ${dadosGraficos.barras.labels[maxScoreIndex]}
+                  (${dadosGraficos.barras.data[maxScoreIndex]}% de compatibilidade média)
+              </div>
+          `;
+      }
+
+      // Insight sobre tendência
+      if (dadosGraficos.linha.data.length >= 2) {
+          const tendencia = dadosGraficos.linha.data[dadosGraficos.linha.data.length - 1] - dadosGraficos.linha.data[dadosGraficos.linha.data.length - 2];
+          const cor = tendencia > 0 ? 'green' : tendencia < 0 ? 'red' : 'yellow';
+          const emoji = tendencia > 0 ? '📈' : tendencia < 0 ? '📉' : '➡️';
+          htmlInsights += `
+              <div class="bg-white p-4 rounded border-l-4 border-${cor}-500">
+                  <strong>${emoji} Tendência:</strong>
+                  ${tendencia > 0 ? 'Aumento' : tendencia < 0 ? 'Diminuição' : 'Estabilidade'}
+                  nas candidaturas recentes
+              </div>
+          `;
+      }
+
+      insights.innerHTML = htmlInsights;
+  }
+
+  function aplicarFiltros() {
+      const select = document.getElementById('filtroVagas');
+      const vagasSelecionadas = Array.from(select.selectedOptions).map(option => option.value);
+
+      // Recarregar dados com filtro
+      fetch(`/api/relatorio/graficos?${vagasSelecionadas.map(v => `vagas=${v}`).join('&')}`)
+          .then(response => response.json())
+          .then(data => {
+              dadosGraficos = data;
+              atualizarGraficos();
+              carregarMetricas();
+              gerarInsights();
+          })
+          .catch(error => {
+              console.error('Erro ao aplicar filtros:', error);
+              alert('Erro ao aplicar filtros. Tente novamente.');
+          });
+  }
+
+  function limparFiltros() {
+      document.getElementById('filtroVagas').selectedIndex = -1;
+      location.reload();
+  }
+
+  function atualizarGraficos() {
+      // Atualizar dados dos gráficos
+      graficoPizza.data.labels = dadosGraficos.pizza.labels;
+      graficoPizza.data.datasets[0].data = dadosGraficos.pizza.data;
+      graficoPizza.update();
+
+      graficoBarras.data.labels = dadosGraficos.barras.labels;
+      graficoBarras.data.datasets[0].data = dadosGraficos.barras.data;
+      graficoBarras.update();
+
+      graficoLinha.data.labels = dadosGraficos.linha.labels;
+      graficoLinha.data.datasets[0].data = dadosGraficos.linha.data;
+      graficoLinha.update();
+  }
+
+  function gerarRelatorioCompleto() {
+      const select = document.getElementById('filtroVagas');
+      const vagasSelecionadas = Array.from(select.selectedOptions).map(option => option.value);
+
+      let url = '/empresa/relatorio/completo';
+      if (vagasSelecionadas.length > 0) {
+          url += '?' + vagasSelecionadas.map(v => `vagas=${v}`).join('&');
+      }
+
+      window.open(url, '_blank');
+  }
+
+</script>
+{% endblock %}
