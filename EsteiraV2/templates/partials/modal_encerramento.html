@@ -1,0 +1,202 @@
+
+<!-- Modal de Encerramento de Vaga -->
+<div id="modalEncerramento" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 transform transition-all">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-orange-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <span class="text-3xl">⚠️</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Como deseja encerrar esta vaga?</h3>
+                <p class="text-gray-600" id="vagaTitulo"></p>
+            </div>
+
+            <!-- Seção de Candidatos (só aparece se houver candidatos) -->
+            <div id="secaoCandidatos" class="mb-6 hidden">
+                <h4 class="font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                    <span>👥</span> Candidatos Disponíveis
+                </h4>
+                <div class="max-h-40 overflow-y-auto border rounded-lg">
+                    <div id="listaCandidatos" class="space-y-1"></div>
+                </div>
+                
+                <!-- Campo para mensagem personalizada -->
+                <div class="mt-4">
+                    <label for="mensagemPersonalizada" class="block text-sm font-semibold text-gray-700 mb-2">
+                        💬 Mensagem para o candidato selecionado
+                    </label>
+                    <textarea 
+                        id="mensagemPersonalizada" 
+                        rows="4" 
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+                        placeholder="Digite uma mensagem personalizada para o candidato contratado (opcional)..."
+                        maxlength="500"
+                    ></textarea>
+                    <div class="text-xs text-gray-500 mt-1">
+                        <span id="contadorCaracteres">0</span>/500 caracteres
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <button 
+                    onclick="encerrarVaga('contratar')"
+                    id="btnContratar"
+                    class="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-xl font-semibold transition-colors duration-200 flex items-center justify-center gap-2 hidden">
+                    <span>✅</span> Contratar Candidato Selecionado
+                </button>
+                
+                <button 
+                    onclick="encerrarVaga('congelar')"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-xl font-semibold transition-colors duration-200 flex items-center justify-center gap-2">
+                    <span>❄️</span> Congelar Vaga
+                </button>
+                
+                <button 
+                    onclick="encerrarVaga('excluir')"
+                    class="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-4 rounded-xl font-semibold transition-colors duration-200 flex items-center justify-center gap-2">
+                    <span>🗑️</span> Excluir Vaga
+                </button>
+            </div>
+
+            <button 
+                onclick="fecharModal()"
+                class="w-full mt-4 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-xl font-medium transition-colors duration-200">
+                Cancelar
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+let vagaAtualId = null;
+let candidatoSelecionado = null;
+
+async function abrirModalEncerramento(vagaId, vagaTitulo) {
+    vagaAtualId = vagaId;
+    candidatoSelecionado = null;
+    
+    document.getElementById('vagaTitulo').textContent = vagaTitulo;
+    document.getElementById('mensagemPersonalizada').value = '';
+    document.getElementById('contadorCaracteres').textContent = '0';
+    
+    // Buscar candidatos da vaga
+    try {
+        const response = await fetch(`/api/candidatos_vaga/${vagaId}`);
+        const candidatos = await response.json();
+        
+        const secaoCandidatos = document.getElementById('secaoCandidatos');
+        const listaCandidatos = document.getElementById('listaCandidatos');
+        const btnContratar = document.getElementById('btnContratar');
+        
+        if (candidatos.length > 0) {
+            secaoCandidatos.classList.remove('hidden');
+            listaCandidatos.innerHTML = '';
+            
+            candidatos.forEach(candidato => {
+                const item = document.createElement('div');
+                item.className = 'p-3 hover:bg-gray-50 cursor-pointer border-b last:border-b-0 candidate-item';
+                item.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="font-medium text-gray-800">${candidato.nome}</p>
+                            <p class="text-sm text-gray-600">Score: ${candidato.score}%</p>
+                        </div>
+                        <input type="radio" name="candidatoSelecionado" value="${candidato.id}" 
+                               class="w-4 h-4 text-purple-600 focus:ring-purple-500">
+                    </div>
+                `;
+                
+                item.addEventListener('click', () => {
+                    const radio = item.querySelector('input[type="radio"]');
+                    radio.checked = true;
+                    candidatoSelecionado = candidato.id;
+                    
+                    // Remover seleção anterior
+                    document.querySelectorAll('.candidate-item').forEach(el => {
+                        el.classList.remove('bg-purple-50', 'border-purple-200');
+                    });
+                    
+                    // Destacar selecionado
+                    item.classList.add('bg-purple-50', 'border-purple-200');
+                    
+                    btnContratar.classList.remove('hidden');
+                });
+                
+                listaCandidatos.appendChild(item);
+            });
+        } else {
+            secaoCandidatos.classList.add('hidden');
+            btnContratar.classList.add('hidden');
+        }
+    } catch (error) {
+        console.error('Erro ao carregar candidatos:', error);
+    }
+    
+    document.getElementById('modalEncerramento').classList.remove('hidden');
+}
+
+// Contador de caracteres para mensagem
+document.getElementById('mensagemPersonalizada').addEventListener('input', function() {
+    const contador = document.getElementById('contadorCaracteres');
+    contador.textContent = this.value.length;
+});
+
+async function encerrarVaga(acao) {
+    if (!vagaAtualId) return;
+    
+    if (acao === 'contratar' && !candidatoSelecionado) {
+        alert('Por favor, selecione um candidato para contratar.');
+        return;
+    }
+    
+    if (acao === 'excluir') {
+        if (!confirm('Tem certeza que deseja excluir esta vaga? Esta ação não pode ser desfeita.')) {
+            return;
+        }
+    }
+    
+    const mensagem = document.getElementById('mensagemPersonalizada').value.trim();
+    
+    try {
+        const response = await fetch('/encerrar_vaga', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                vaga_id: vagaAtualId,
+                acao: acao,
+                candidato_id: candidatoSelecionado,
+                mensagem_personalizada: mensagem
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert(result.message);
+            fecharModal();
+            location.reload();
+        } else {
+            alert('Erro: ' + (result.error || 'Erro desconhecido'));
+        }
+    } catch (error) {
+        console.error('Erro ao encerrar vaga:', error);
+        alert('Erro ao processar solicitação. Tente novamente.');
+    }
+}
+
+function fecharModal() {
+    document.getElementById('modalEncerramento').classList.add('hidden');
+    vagaAtualId = null;
+    candidatoSelecionado = null;
+}
+
+// Fechar modal ao clicar fora
+document.getElementById('modalEncerramento').addEventListener('click', function(e) {
+    if (e.target === this) {
+        fecharModal();
+    }
+});
+</script>

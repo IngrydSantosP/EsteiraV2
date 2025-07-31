@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css')}}"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VaBOO - Plataforma de Empregos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <header class="w-full bg-white shadow-sm sticky top-0 z-30">
+      <div
+        class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between"
+      >
+        <a href="#home" class="logo select-none">
+          V<span class="text-2xl font-black relative" style="top: -0.15rem"
+            >A</span
+          >B<span class="ring-o">O</span><sup class="exclamation">!</sup>
+        </a>
+        <nav>
+          <ul class="flex gap-10 text-gray-900 font-semibold select-none">
+            <li><a href="#home" class="nav-link active">Home</a></li>
+            <li><a href="#jobs" class="nav-link">Vagas</a></li>
+            <li><a href="#about" class="nav-link">Sobre</a></li>
+          </ul>
+        </nav>
+        <a href="{{ url_for('cadastro_empresa') }}" class="btn-primary"
+          >Cadastrar-se</a
+        >
+      </div>
+    </header>
+
+    <!-- Section: Home -->
+    <section id="home" aria-label="Home: Apresentação do VaBOO">
+      <div class="left-image">
+        <img
+          src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/589597a7-5533-4ebf-87a9-054656cbdb0f.png"
+          alt="Jovem mulher de negócios sorridente segurando um laptop, vestindo óculos, sobre fundo claro com formas geométricas roxas ao redor"
+          loading="lazy"
+          onerror="this.style.display='none'"
+        />
+        <div class="shape shape-big octagon"></div>
+        <div class="shape shap e-small octagon"></div>
+        <div class="shape shape-tiny octagon"></div>
+      </div>
+      <div class="right-text">
+        <h1>Tá em busca<br />de uma Vaga?</h1>
+        <p class="subheading">Conheça a VaBOO!</p>
+        <button
+          class="btn-hero"
+          onclick="document.getElementById('jobs').scrollIntoView({behavior: 'smooth'})"
+          aria-label="Ver vagas disponíveis"
+        >
+          Ver vagas
+        </button>
+      </div>
+    </section>
+
+    <!-- Section: About -->
+    <section id="about" aria-label="Sobre o VaBOO">
+      <div class="content-text">
+        <p>
+          <em>O <strong>Vaboo</strong></em> é um site de empregos moderno e
+          intuitivo, criado com o propósito de aproximar empresas e
+          profissionais de forma simples, rápida e eficiente.<br />
+          Voltado para quem busca novas oportunidades no mercado de trabalho, a
+          plataforma oferece uma experiência acessível tanto para candidatos
+          quanto para recrutadores.<br />
+          Com uma interface amigável e responsiva, o
+          <em><strong>Vaboo</strong></em> permite que os usuários encontrem
+          vagas por área, localização, tipo de trabalho (remoto, híbrido ou
+          presencial) e nível de experiência. As vagas são apresentadas com
+          clareza, destacando os principais requisitos, benefícios e formas de
+          candidatura.<br />
+          Além disso, o <em><strong>Vaboo</strong></em> preza pela humanização
+          do processo seletivo, promovendo oportunidades para todos os perfis
+          profissionais — desde o primeiro emprego até posições de liderança. O
+          nome e a identidade visual reforçam a proposta jovem, dinâmica e
+          acolhedora do projeto, que visa transformar a busca por emprego em uma
+          jornada mais leve, objetiva e otimista.<br />
+          <strong><em>Vaboo</em></strong
+          >: <strong>conectando talentos às melhores oportunidades.</strong>
+        </p>
+      </div>
+      <div class="content-image">
+        <img
+          src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/cec3b611-6a12-486a-adee-f40be9bc19af.png"
+          alt="Jovem mulher negra sorridente estendendo a mão para cumprimentar em um ambiente de escritório claro e moderno"
+          loading="lazy"
+          onerror="this.style.display='none'"
+        />
+        <div class="shape shape-big octagon"></div>
+        <div class="shape shape-small octagon"></div>
+        <div class="shape shape-tiny octagon"></div>
+      </div>
+    </section>
+
+    <!-- Section: Jobs -->
+    <section id="jobs" aria-label="Vagas disponíveis - Carrossel de empresas">
+      <div class="relative w-full max-w-4xl">
+        <div
+          class="cards"
+          tabindex="0"
+          aria-live="polite"
+          aria-label="Lista de vagas das empresas"
+        >
+          <article
+            class="card"
+            tabindex="0"
+            aria-labelledby="title-banco-brasil"
+          >
+            <img
+              src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/8f7f1912-1cba-4977-82d4-0f3f5f4ed0e8.png"
+              alt="Logo do Banco do Brasil com fundo amarelo e letras estilizadas em vermelho"
+            />
+            <a
+              href="#!"
+              class="more-info"
+              aria-describedby="desc-bb"
+              tabindex="0"
+              >Saber mais</a
+            >
+            <button type="button" aria-label="Inscrever-se no Banco do Brasil">
+              Inscrever-se
+            </button>
+            <p id="desc-bb" class="sr-only">
+              O Banco do Brasil oferece vagas em diversas áreas com foco em
+              inovação e desenvolvimento financeiro.
+            </p>
+          </article>
+          <article class="card" tabindex="0" aria-labelledby="title-itau">
+            <img
+              src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/25600968-dfb0-4564-9490-2b495f1016cd.png"
+              alt="Logo do Itaú em preto com fundo branco e letras em estilo moderno"
+            />
+            <a
+              href="#!"
+              class="more-info"
+              aria-describedby="desc-itau"
+              tabindex="0"
+              >Saber mais</a
+            >
+            <button type="button" aria-label="Inscrever-se no Itaú">
+              Inscrever-se
+            </button>
+            <p id="desc-itau" class="sr-only">
+              Itaú disponibiliza vagas para profissionais de tecnologia,
+              atendimento e gestão em todo Brasil.
+            </p>
+          </article>
+          <article
+            class="card"
+            tabindex="0"
+            aria-labelledby="title-x-supermercado"
+          >
+            <img
+              src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/769a6c21-63fd-4669-a235-605dd7ad1812.png"
+              alt="Logo do Supermercados X com fundo amarelo e letras azul escuro, em estilo quadrado"
+            />
+            <a
+              href="#!"
+              class="more-info"
+              aria-describedby="desc-x"
+              tabindex="0"
+              >Saber mais</a
+            >
+            <button type="button" aria-label="Inscrever-se no Supermercados X">
+              Inscrever-se
+            </button>
+            <p id="desc-x" class="sr-only">
+              Supermercados X busca profissionais para área de varejo, logística
+              e atendimento ao cliente.
+            </p>
+          </article>
+        </div>
+        <button
+          class="arrow arrow-right"
+          aria-label="Próximo"
+          onclick="scrollJobs('next')"
+        >
+          &rarr;
+        </button>
+      </div>
+    </section>
+
+    <!-- Section: Authentication -->
+    <section id="auth" aria-label="Área de login e cadastro">
+      <!-- Left side: message and switch -->
+      <div class="side-left" id="create-account-side">
+        <h2>Criar Conta</h2>
+       
+        <form
+          id="create-account-form"
+          aria-describedby="create-account-desc"
+          novalidate
+        >
+          <label for="nome-create" aria-required="true"
+            ><span>Nome</span></label
+          >
+          <input
+            type="text"
+            id="nome"
+            name="nome"
+            placeholder="Nome completo"
+            required
+            aria-required="true"
+          />
+
+          <label for="email-create" aria-required="true">
+            <span>E-mail</span></label
+          >
+          <input
+            icon="email"
+            type="email"
+            id="email-create"
+            name="email"
+            placeholder="E-mail"
+            required
+            aria-required="true"
+          />
+
+          <label for="telefone-create" aria-required="true">
+            <span>Telefone</span>
+          </label>
+          <input
+            icon="Telefone"
+            type="tel"
+            name="telefone"
+            placeholder="telefone"
+            maxlength="11"
+            required
+            aria-required="true"
+          />
+
+          <label for="pretencao-salarial-create" aria-required="true">
+            <span>Pretenção Salarial</span>
+          </label>
+
+          <input
+            icon="Pretenção Salarial"
+            type="number"
+            id="pretensao_salarial"
+            name="pretensao_salarial"
+            placeholder="Pretensão Salarial (R$)"
+            step="0.01"
+            required
+            aria-required="true"
+          />
+
+          <label for="senha-create" aria-required="true"
+            ><span>Senha</span></label
+          >
+          <input
+            icon="senha"
+            type="password"
+            id="senha"
+            name="senha"
+            placeholder="Senha"
+            required
+            aria-required="true"
+            minlength="6"
+          />
+          <input
+            icon="senha"
+            type="password"
+            id="confirmar_senha"
+            name="confirmar_senha"
+            placeholder="Confirmar Senha"
+            required
+            aria-required="true"
+            minlength="6"
+          />
+
+          <button
+            type="submit"
+            class="w-full bg-[#7C71B2] hover:bg-purple-600 text-white font-bold py-2 rounded-full transition"
+          >
+            Cadastrar
+          </button>
+        </form>
+      </div>
+
+      <!-- Right side: welcome text and switch -->
+      <div
+        class="side-right"
+        id="login-side"
+        aria-live="polite"
+        aria-atomic="true"
+        aria-relevant="text"
+      >
+        <div role="region" aria-label="Mensagem de boas-vindas">
+          <div
+            class="logo"
+            aria-hidden="true"
+            style="justify-content: center; margin-bottom: 1.2rem"
+          >
+            V<span style="top: -0.15rem; position: relative">A</span>B<span
+              class="ring-o"
+              >O</span
+            ><sup class="exclamation">!</sup>
+          </div>
+          <h2>Bem-Vindo<br />de Volta!</h2>
+          <p>Já possui uma conta? Faça seu login abaixo</p>
+        </div>
+        <form
+          id="login-form"
+          method="post"
+          action="{{ url_for('login_candidato') }}"
+          novalidate
+        >
+          <label for="email-login" aria-required="true">Email</label>
+          <input
+            icon="email"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="E-mail"
+            required
+            aria-required="true"
+          />
+
+          <label for="senha-login" aria-required="true">Senha</label>
+          <input
+            icon="senha"
+            type="password"
+            id="senha-login"
+            name="senha"
+            placeholder="Senha"
+            required
+            aria-required="true"
+          />
+
+          <button type="submit" aria-label="Fazer login">Login</button>
+        </form>
+      </div>
+    </section>
+
+    <script>
+      // Menu navigation
+      const sections = {
+        home: document.getElementById("home"),
+        jobs: document.getElementById("jobs"),
+        about: document.getElementById("about"),
+      };
+
+      const navLinks = document.querySelectorAll("nav a.nav-link");
+
+      function setActiveLink(hash) {
+        navLinks.forEach((link) => {
+          if (link.getAttribute("href") === hash) {
+            link.classList.add("active");
+            link.setAttribute("aria-current", "page");
+          } else {
+            link.classList.remove("active");
+            link.removeAttribute("aria-current");
+          }
+        });
+      }
+
+      navLinks.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          const target = link.getAttribute("href");
+          document.querySelector(target).scrollIntoView({ behavior: "smooth" });
+          setActiveLink(target);
+          history.pushState(null, "", target);
+        });
+      });
+
+      window.addEventListener("load", () => {
+        let hash = window.location.hash || "#home";
+        setActiveLink(hash);
+      });
+
+      // Jobs carousel
+      function scrollJobs(direction) {
+        const cardsContainer = document.querySelector("#jobs .cards");
+        const card = cardsContainer.querySelector(".card");
+        const cardWidth = card.offsetWidth + 32;
+        if (direction === "next") {
+          cardsContainer.scrollBy({ left: cardWidth, behavior: "smooth" });
+        }
+      }
+
+      // Form submission
+      const form = document.getElementById("create-account-form");
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        let data = Object.fromEntries(formData.entries());
+        data.pretensao_salarial = parseFloat(data.pretensao_salarial);
+
+        if (data.senha !== data.confirmar_senha) {
+          alert("As senhas não coincidem!");
+          return;
+        }
+
+        try {
+          const response = await fetch("/auth/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+
+          const result = await response.json();
+          if (response.status === 201) {
+            alert("Cadastro realizado com sucesso!");
+            form.reset();
+          } else {
+            alert(result.msg || "Erro ao cadastrar!");
+          }
+        } catch (error) {
+          console.error(error);
+          alert("Erro ao se conectar com o servidor!");
+        }
+      });
+    </script>
+
+
+    <div vw class="enabled">
+      <div vw-access-button class="active"></div>
+      <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+      </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+      new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+  </body>
+</html>

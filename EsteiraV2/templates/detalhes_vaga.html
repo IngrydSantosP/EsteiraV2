@@ -1,0 +1,205 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ vaga.titulo }} - Detalhes da Vaga{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 py-8">
+    <div class="max-w-4xl mx-auto px-4">
+        <!-- Header -->
+        <div class="mb-6">
+            <a href="{{ url_for('dashboard_candidato') }}" 
+               class="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium mb-4 transition-colors">
+                <span>←</span> Voltar ao Dashboard
+            </a>
+            <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+                <div class="flex items-start gap-6">
+                    <div class="w-20 h-20 bg-gradient-to-br from-purple-100 to-blue-100 rounded-2xl flex items-center justify-center flex-shrink-0">
+                        <span class="text-3xl">💼</span>
+                    </div>
+                    <div class="flex-1">
+                        <h1 class="text-3xl font-bold text-gray-900 mb-3">{{ vaga.titulo }}</h1>
+                        <div class="flex flex-wrap gap-4 text-sm text-gray-600 mb-4">
+                            <span class="flex items-center gap-2 bg-purple-50 px-3 py-1 rounded-full">
+                                <span>🏢</span> {{ empresa.nome }}
+                            </span>
+                            <span class="flex items-center gap-2 bg-green-50 px-3 py-1 rounded-full">
+                                <span>💰</span> R$ {{ "{:,.2f}".format(vaga.salario_oferecido) }}
+                            </span>
+                            <span class="flex items-center gap-2 bg-blue-50 px-3 py-1 rounded-full">
+                                <span>📍</span> {{ vaga.tipo_vaga }}
+                            </span>
+                        </div>
+                        
+                        {% if vaga.endereco_vaga and vaga.tipo_vaga in ['Presencial', 'Híbrida'] %}
+                        <div class="flex items-center gap-2 text-gray-600 mb-4">
+                            <span>🗺️</span>
+                            <span>{{ vaga.endereco_vaga }}</span>
+                        </div>
+                        {% endif %}
+
+                        <!-- Score do candidato -->
+                        {% if score %}
+                        <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200 mb-6">
+                            <div class="flex items-center gap-3">
+                                <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl flex items-center justify-center">
+                                    <span class="text-xl font-bold">{{ "%.0f"|format(score) }}%</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-green-800 mb-1">Seu Match com esta Vaga</h3>
+                                    <p class="text-sm text-gray-600">
+                                        Baseado no seu perfil e requisitos da vaga
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid gap-8 lg:grid-cols-3">
+            <!-- Coluna Principal -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Descrição -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <span>📝</span> Descrição da Vaga
+                    </h2>
+                    <div class="text-gray-700 leading-relaxed whitespace-pre-wrap">{{ vaga.descricao }}</div>
+                </div>
+
+                <!-- Requisitos -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <span>⚡</span> Requisitos Necessários
+                    </h2>
+                    <div class="text-gray-700 leading-relaxed whitespace-pre-wrap">{{ vaga.requisitos }}</div>
+                </div>
+
+                {% if feedback_performance %}
+                <!-- Feedback de Performance -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-200">
+                    <h2 class="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2">
+                        <span>🎯</span> Análise do Seu Perfil
+                    </h2>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                {{ feedback_performance.requisitos_atendidos }}
+                            </span>
+                            <span class="text-gray-700">de {{ feedback_performance.total_requisitos }} requisitos atendidos</span>
+                        </div>
+                        
+                        <div class="flex items-center gap-3">
+                            <span class="w-6 h-6 bg-purple-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                {{ feedback_performance.diferenciais_atendidos }}
+                            </span>
+                            <span class="text-gray-700">diferenciais que você possui</span>
+                        </div>
+                        
+                        {% if feedback_performance.bonus_localizacao %}
+                        <div class="flex items-center gap-3">
+                            <span class="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm">
+                                ✓
+                            </span>
+                            <span class="text-gray-700">Localização favorável para esta vaga</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Empresa -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+                        <span>🏢</span> Sobre a Empresa
+                    </h3>
+                    <div class="text-gray-700">
+                        <p class="font-semibold text-purple-600 mb-2">{{ empresa.nome }}</p>
+                        <p class="text-sm text-gray-600">
+                            Empresa focada em inovação e desenvolvimento de soluções tecnológicas.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Ações -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-4">
+                    {% if ja_candidatado %}
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-green-100 rounded-full mx-auto mb-3 flex items-center justify-center">
+                                <span class="text-2xl">✅</span>
+                            </div>
+                            <p class="font-semibold text-green-600 mb-2">Você já se candidatou!</p>
+                            <p class="text-sm text-gray-600 mb-4">Acompanhe o status no seu dashboard</p>
+                            <button onclick="cancelarCandidatura({{ vaga.id }})"
+                                    class="w-full bg-red-50 hover:bg-red-500 text-red-600 hover:text-white py-3 px-4 rounded-xl font-semibold transition-all duration-300">
+                                Cancelar Candidatura
+                            </button>
+                        </div>
+                    {% else %}
+                        <a href="{{ url_for('candidatar', vaga_id=vaga.id) }}" 
+                           class="block w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold py-4 px-6 rounded-xl text-center transition-all duration-300 transform hover:scale-105 shadow-lg">
+                            <span class="flex items-center justify-center gap-2">
+                                <span>🚀</span>
+                                Candidatar-se Agora
+                            </span>
+                        </a>
+                    {% endif %}
+                </div>
+
+                <!-- Informações Adicionais -->
+                <div class="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl p-6 border border-gray-200">
+                    <h4 class="font-semibold text-gray-800 mb-3">Informações da Vaga</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Modalidade:</span>
+                            <span class="font-medium">{{ vaga.tipo_vaga }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Salário:</span>
+                            <span class="font-medium text-green-600">R$ {{ "{:,.2f}".format(vaga.salario_oferecido) }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Publicada em:</span>
+                            <span class="font-medium">{{ vaga.data_criacao.strftime('%d/%m/%Y') if vaga.data_criacao else 'N/A' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+async function cancelarCandidatura(vagaId) {
+    if (confirm('🤔 Tem certeza que deseja cancelar sua candidatura para esta vaga?')) {
+        try {
+            const response = await fetch('/cancelar_candidatura', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    vaga_id: vagaId
+                })
+            });
+
+            if (response.ok) {
+                alert('✅ Candidatura cancelada com sucesso!');
+                window.location.href = '{{ url_for("dashboard_candidato") }}';
+            } else {
+                alert('❌ Erro ao cancelar candidatura');
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            alert('❌ Erro ao cancelar candidatura');
+        }
+    }
+}
+</script>
+{% endblock %}
